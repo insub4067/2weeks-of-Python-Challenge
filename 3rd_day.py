@@ -10,66 +10,51 @@ All this functions should check for errors, follow the comments to see all cases
 There should be NO ERRORS from Python in the console.
 """
 
-def add_to_dict(dict, *args):
-    if str(type(dict)) != "<class 'dict'>" : 
-        print("You need to send a dictionary. You sent: ",type(dict))
-        return
-    if len(args) < 2:
+def add_to_dict(my_dict, *args):
+    if isinstance(my_dict, dict) == False : 
+        print("You need to send a dictionary. You sent: ",type(my_dict))
+    elif len(args) < 2:
         print("You need to send a word and a definition.")
-        return
-    if args[0] in dict:
-        print("kimch is already on the dictionary. Won't add")
-        return
-    dict[args[0]]=args[1]
-    print("kimch has been added.")
-    return
+    elif args[0] in my_dict:
+        print(f"{args[0]} is already on the dictionary. Won't add")
+    elif args[1]:
+        my_dict[args[0]]=args[1]
+        print(f"{args[0]} has been added.")
 
-def get_from_dict(dict, *args):
-    if str(type(dict)) != "<class 'dict'>" : 
-        print("You need to send a dictionary. You sent: ",type(dict))
-        return
-    if len(args) < 1:
+def get_from_dict(my_dict, *args):
+    if isinstance(my_dict, dict) == False : 
+        print("You need to send a dictionary. You sent: ",type(my_dict))
+    elif len(args) < 1:
         print("You need to send a word to search for.")
-        return
-    if args[0] in dict:
-        value = dict[args[0]]
+    elif args[0] in my_dict:
+        value = my_dict[args[0]]
         print(f"{args[0]}: {value}")
-        return
-    if args[0] not in dict:
+    elif args[0] not in my_dict:
         print(f"{args[0]} was not found in this dict.")
-        return
 
-def update_word(dict, *args):
-    if str(type(dict)) != "<class 'dict'>" : 
-        print("You need to send a dictionary. You sent: ",type(dict))
-        return
-    if len(args) < 2:
+def update_word(my_dict, *args):
+    if isinstance(my_dict, dict) == False : 
+        print("You need to send a dictionary. You sent: ",type(my_dict))
+    elif len(args) < 2:
         print("You need to send a word and a definition to update.")
-        return
-    if args[0] in dict:
-        dict[args[0]]=args[1]
+    elif args[0] in my_dict:
+        my_dict[args[0]]=args[1]
         print(f"{args[0]} has been updated to: {args[1]}")
-        return
-    if args[0] not in dict:
+    elif args[0] not in my_dict:
         print(f"{args[0]} is not on the dict. Can't update non-existing word.")
-        return
         
 
 
-def delete_from_dict(dict, *args):
-    if str(type(dict)) != "<class 'dict'>" : 
-        print("You need to send a dictionary. You sent: ",type(dict))
-        return
-    if len(args) < 1:
+def delete_from_dict(my_dict, *args):
+    if isinstance(my_dict, dict) == False : 
+        print("You need to send a dictionary. You sent: ",type(my_dict))
+    elif len(args) < 1:
         print("You need to specify a word to delete.")
-        return
-    if args[0] in dict:
-        del dict[args[0]]
+    elif args[0] in my_dict:
+        del my_dict[args[0]]
         print(f"{args[0]} has been deleted")
-        return
-    if args[0] not in dict:
+    elif args[0] not in my_dict:
         print(f"{args[0]} is not on the dict. Won't delete.")
-        return
 
 
 # \/\/\/\/\/\/\ DO NOT TOUCH  \/\/\/\/\/\/\
