@@ -36,8 +36,6 @@ def req():
         print("That's not a number.")
         req()
 
-
-
 for idx, tr in enumerate(trs): 
     if idx > 0:
         tds = tr.find_all('td')
