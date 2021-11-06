@@ -13,19 +13,21 @@ table = iban_soup.table
 
 trs = table.find_all('tr')
 
-print("Hello! Please choose select a country by number: ")
+print(table.find_all('tr')[1:])
 
-currency_list=[]
+# print("Hello! Please choose select a country by number: ")
+
+country_list=[]
 
 def index(country_number):
     try:
-        res = currency_list[country_number-1]
+        res = country_list[country_number-1]
         country = res['country']
-        currency = res['currency']
+        code = res['code']
         print(f"You chose {country}")
-        print(f"The currency code is {currency}")
+        print(f"The currency code is {code}")
     except:
-        print("Choose a nuber from the list.")
+        print("Choose a number from the list.")
         req()
 
 def req():
@@ -45,10 +47,10 @@ for idx, tr in enumerate(trs):
         code = tds[2].text.strip()
         number = tds[3].text.strip()
 
-        currency_list.append({
+        country_list.append({
             "idx":idx, 
             "country": country,
-            "currency": currency,
+            "code": code,
             })
 
         print("#", idx,country)
