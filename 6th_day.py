@@ -39,7 +39,7 @@ def exchange():
         convert_from_format = format_currency(convert_from, code_from_upper, locale='en_US')
         convert_ratio = float(calculator.find("span","text-success").text)
         convert_to = convert_from*convert_ratio
-        convert_to_fromat = format_currency(convert_to, code_to_upper, locale='en_US')
+        convert_to_fromat = format_currency(convert_to, code_to_upper, locale='ko_KR')
         print(f"\n{convert_from_format} is {convert_to_fromat}")
     except:
         print("\nSorry, we don't have data for does currencies.")
@@ -108,6 +108,6 @@ for idx, tr in enumerate(trs):
             "code": code,
             "currency":currency,
             })
-        print("#", idx,country, code)
+        print("#", idx,country)
 
 ask_from()
