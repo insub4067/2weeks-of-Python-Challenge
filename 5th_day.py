@@ -13,9 +13,7 @@ table = iban_soup.table
 
 trs = table.find_all('tr')
 
-print(table.find_all('tr')[1:])
-
-# print("Hello! Please choose select a country by number: ")
+print("Hello! Please choose select a country by number: ")
 
 country_list=[]
 
