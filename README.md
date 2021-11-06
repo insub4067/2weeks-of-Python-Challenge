@@ -1,2 +1,3 @@
 # NomadCoder-Python-Challenge
-2021 September for 2 weeks
+language : Python
+used modules : os, sys, requests, bs4, babel
