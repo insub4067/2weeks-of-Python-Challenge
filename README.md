@@ -2,7 +2,7 @@
 language : Python  
 used modules : os, sys, requests, bs4, babel  
 
-Day 1: Quiz. 
+Day 1: Quiz.  
 Day 2: Study list and made some functions.  
 Day 3: Study dict and make API like functions.  
 Day 4: Checking program whether site is up or down by using requests(module).  
