@@ -47,6 +47,8 @@ def extract_jobs(brand_name, url):
     if job_num.find(",") == True:
         job_num = job_num.replace(",", "")
         job_num = int(job_num)
+    elif int(job_num) == 0:
+        pass
     else:
         job_num = int(job_num)
 
