@@ -10,4 +10,5 @@ Day 5: Scrap various currencies from 'iban.com/currency-codes'.
 Day 6: Scrap various currencies and calculate exchange rate.  
 Day 7: Holiday.  
 Day 8: Scrap Jobs from 'alba.co.kr' and save as .csv file.  
+Day 9-10: Scrap news from Hacker news and make my own page and show the datas.  
 
