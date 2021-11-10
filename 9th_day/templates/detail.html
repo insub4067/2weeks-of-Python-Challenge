@@ -2,11 +2,35 @@
 <html>
 
 <head>
+    <title>1090 News | {{comments['title']}}</title>
     <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet">
     </link>
 </head>
 
 <body>
+    <header>
+        <h1>{{comments['title']}}</h1>
+        <div>
+            {{comments['points']}} point | By {{comments['author']}} |
+            <a href="{{comments['url']}}" target="_blank"> {{comments['url']}}</a>
+        </div>
+    </header>
+    <main>
+        {% for comment in comments['children'] %}
+        {% if comment['author'] == None %}
+        <div>[deleted]</div>
+        <hr>
+        {% else %}
+        {% autoescape false %}
+        <div>
+            <strong>{{comment['author']}}:</strong>
+            <p>{{comment['text']}}</p>{{ will_not_be_escaped }}
+        </div>
+        {% endautoescape %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+    </main>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, render_template, request
 
+
 base_url = "http://hn.algolia.com/api/v1"
 
 # This URL gets the newest stories.
@@ -17,7 +18,37 @@ def make_detail_url(id):
 
 
 db = {}
-app = Flask("DayNine")
+# app = Flask("DayNine")
+app = Flask(__name__, template_folder="templates")
 
 
-app.run(host="0.0.0.0")
+@app.route("/")
+def home():
+
+    pop_posts = requests.get(popular).json()["hits"]
+    db["popular"] = pop_posts
+
+    new_posts = requests.get(new).json()["hits"]
+    db["new"] = new_posts
+
+    order = request.args.get("order_by")
+
+    if order:
+        if order == "new":
+            return render_template("index.html", posts=db["new"], orderBy=order)
+        if order == "popular":
+            return render_template("index.html", posts=db["popular"], orderBy=order)
+    else:
+        return render_template("index.html", posts=db["popular"], orderBy="popular")
+
+
+@app.route("/<id>")
+def comments(id):
+    url = f"{base_url}/items/{id}"
+    comments = requests.get(url).json()
+    return render_template("detail.html", comments=comments)
+
+
+# app.run(host="0.0.0.0")
+if __name__ == "__main__":
+    app.run(host="localhost", port="8001", debug=True)
