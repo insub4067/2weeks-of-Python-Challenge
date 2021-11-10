@@ -24,31 +24,37 @@ app = Flask(__name__, template_folder="templates")
 
 @app.route("/")
 def home():
+    try:
 
-    pop_posts = requests.get(popular).json()["hits"]
-    db["popular"] = pop_posts
+        pop_posts = requests.get(popular).json()["hits"]
+        db["popular"] = pop_posts
 
-    new_posts = requests.get(new).json()["hits"]
-    db["new"] = new_posts
+        new_posts = requests.get(new).json()["hits"]
+        db["new"] = new_posts
 
-    order = request.args.get("order_by")
+        order = request.args.get("order_by")
 
-    if order:
-        if order == "new":
-            return render_template("index.html", posts=db["new"], orderBy=order)
-        if order == "popular":
-            return render_template("index.html", posts=db["popular"], orderBy=order)
-    else:
-        return render_template("index.html", posts=db["popular"], orderBy="popular")
+        if order:
+            if order == "new":
+                return render_template("index.html", posts=db["new"], orderBy=order)
+            if order == "popular":
+                return render_template("index.html", posts=db["popular"], orderBy=order)
+        else:
+            return render_template("index.html", posts=db["popular"], orderBy="popular")
+    except:
+        pass
 
 
 @app.route("/<id>")
 def comments(id):
-    url = f"{base_url}/items/{id}"
-    comments = requests.get(url).json()
-    return render_template("detail.html", comments=comments)
+    try:
+        url = f"{base_url}/items/{id}"
+        comments = requests.get(url).json()
+        return render_template("detail.html", comments=comments)
+    except:
+        pass
 
 
 # app.run(host="0.0.0.0")
 if __name__ == "__main__":
-    app.run(host="localhost", port="8001", debug=True)
+    app.run(host="localhost", port="8000", debug=True)
