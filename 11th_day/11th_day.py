@@ -25,6 +25,17 @@ https://www.reddit.com/r/{subreddit}/top/?t=month
 This will give you the top posts in per month.
 """
 
+
+def convert_to_int(x):
+    if type(x) == float or type(x) == int:
+        return x
+    if "k" in x:
+        if len(x) > 1:
+            return float(x.replace("k", "")) * 1000
+        return 1000.0
+    return 0.0
+
+
 subreddits = [
     "javascript",
     "reactjs",
@@ -49,22 +60,24 @@ def get_soup(subreddit):
     divs = divs.find_all("div", attrs={"data-testid": "post-container"})
 
     for div in divs:
+
+        title = div.find("h3", "_eYtD2XCVieq6emjKBH3m").text
+        votes = div.find("div", "_1E9mcoVn4MYnuBQSVDt1gC").text
         try:
-            title = div.find("h3", "_eYtD2XCVieq6emjKBH3m").text
-            votes = int(div.find("div", "_1E9mcoVn4MYnuBQSVDt1gC").text)
-            url = div.find("a", href=True).get("href")
-            catergory = subreddit
-            promote = div.find("span", "_2oEYZXchPfHwcf9mTMGMg8")
-            if promote == None:
-                article = {
-                    "title": title,
-                    "votes": votes,
-                    "category": catergory,
-                    "url": url,
-                }
-                db[subreddit].append(article)
+            votes = int(votes)
         except:
-            pass
+            votes = int(convert_to_int(votes))
+        url = div.find("a", href=True).get("href")
+        catergory = subreddit
+        promote = div.find("span", "_2oEYZXchPfHwcf9mTMGMg8")
+        if promote is None:
+            article = {
+                "title": title,
+                "votes": votes,
+                "category": catergory,
+                "url": url,
+            }
+            db[subreddit].append(article)
 
 
 # app = Flask("DayEleven")
