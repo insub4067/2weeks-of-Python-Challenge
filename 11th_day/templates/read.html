@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Reddut Reader by 1090</title>
+    <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet">
+    </link>
+</head>
+
+<body>
+    <header>
+        <h1>
+            <a href='/'>Reddit Reader by 1090</a>
+        </h1>
+        <h3>Reading: {{selected}}</h3>
+    </header>
+    <main>
+        {% for article in articles %}
+        <div>
+            <h3>
+                <a href="{{article['url']}}" target="_blank">{{article['title']}}</a>
+                <h3>
+                    <h4>{{article['votes']}} upvotes · r/{{article['category']}}</h4>
+                    <hr>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+
+</html>
