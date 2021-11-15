@@ -27,8 +27,6 @@ def home():
             db[word] = jobs
             Word = word.capitalize()
             return render_template("result.html", jobs=jobs, word=Word, amount=amount)
-    else:
-        pass
 
     return render_template("index.html", keywords=keywords)
 
@@ -56,8 +54,6 @@ def file():
     export(word)
     return send_file("jobs.csv")
 
-    return redirect("/")
-
 
 if __name__ == "__main__":
-    app.run(host="localhost", port="8000", debug=True)
+    app.run(host="localhost", port="8080", debug=True)

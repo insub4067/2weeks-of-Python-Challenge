@@ -23,24 +23,56 @@ def scrap_overflow(word):
 
     for page in range(last_page):
 
-        results = overflow_soup.find_all("div", {"class": "-job"})
+        page = page + 1
 
-        for result in results:
+        if page == 1:
+            results = overflow_soup.find_all("div", {"class": "-job"})
 
-            title_link = result.find("h2").find("a", {"class": "s-link"})
-            title = title_link["title"]
-            link = f"https://stackoverflow.com/jobs/{title_link['href']}"
-            company, location = result.find("h3", {"class": "fs-body1"}).find_all(
-                "span", recursive=False
-            )
-            job = {
-                "title": title,
-                "link": link,
-                "company": company.get_text(strip=True),
-                "location": location.get_text(strip=True),
-            }
+            for result in results:
 
-            jobs.append(job)
+                title_link = result.find("h2").find("a", {"class": "s-link"})
+
+                title = title_link["title"]
+                link = f"https://stackoverflow.com/{title_link['href']}"
+                company, location = result.find(
+                    "h3", {"class": "fc-black-700 fs-body1 mb4"}
+                ).find_all("span", recursive=False)
+                company = company.string
+                location = location.string.strip()
+                job = {
+                    "title": title,
+                    "company": company,
+                    "location": location,
+                    "link": link,
+                }
+
+                jobs.append(job)
+
+        elif page > 1:
+
+            url = f"https://stackoverflow.com/jobs?q={word}&pg={page}"
+            overflow_soup = get_soup(url)
+            results = overflow_soup.find_all("div", {"class": "-job"})
+
+            for result in results:
+
+                title_link = result.find("h2").find("a", {"class": "s-link"})
+
+                title = title_link["title"]
+                link = f"https://stackoverflow.com/{title_link['href']}"
+                company, location = result.find(
+                    "h3", {"class": "fc-black-700 fs-body1 mb4"}
+                ).find_all("span", recursive=False)
+                company = company.string
+                location = location.string.strip()
+                job = {
+                    "title": title,
+                    "company": company,
+                    "location": location,
+                    "link": link,
+                }
+
+                jobs.append(job)
 
     return jobs
 
@@ -73,7 +105,12 @@ def scrap_remotely(word):
         location = job_info[5].get_text()
         link = f"https://weworkremotely.com/{job_info_link['href']}"
 
-        job = {"title": title, "link": link, "company": company, "location": location}
+        job = {
+            "title": title,
+            "company": company,
+            "location": location,
+            "link": link,
+        }
         jobs.append(job)
 
     return jobs
@@ -124,12 +161,16 @@ def scrap_remoteok(word):
 
 def get_jobs(word):
 
-    overflow_jobs = scrap_overflow(word)
-    remotely_jobs = scrap_remotely(word)
-    remoteok_jobs = scrap_remoteok(word)
+    try:
 
-    jobs = remoteok_jobs + remotely_jobs + overflow_jobs
+        overflow_jobs = scrap_overflow(word)
+        remotely_jobs = scrap_remotely(word)
+        remoteok_jobs = scrap_remoteok(word)
 
-    db[word] = jobs
+        jobs = remoteok_jobs + remotely_jobs + overflow_jobs
 
-    return jobs
+        db[word] = jobs
+
+        return jobs
+    except:
+        return
